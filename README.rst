@@ -1,7 +1,7 @@
 ma1
 --------
 
-## Installation
+# Installation
 
 	pip install git+https://github.com/NAzT/ma1.git
 	
