@@ -2,6 +2,7 @@ ma1
 --------
 
 ## Installation
+
 	pip install git+https://github.com/NAzT/ma1.git
 	
 To use (with caution), simply do::
