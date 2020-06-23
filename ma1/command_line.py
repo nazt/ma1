@@ -1,4 +1,3 @@
-from . import joke
 from . import pendulum
 
 import time
