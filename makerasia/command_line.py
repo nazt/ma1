@@ -23,55 +23,12 @@ def cli(port, baud):
 	b = baud
 
 
-# https://stackoverflow.com/a/27628622
-def readline(a_serial, eol=b'\r\n'):
-	leneol = len(eol)
-	line = bytearray()
-	while True:
-		c = a_serial.read(1)
-		# print(c)
-		if c:
-			line += c
-			if line[-leneol:] == eol:
-				break
-		else:
-			break
-	return (line)
-
-
-def read_from_port(ser):
-	while True:
-		try:
-			line = readline(ser)
-			pendulum_angle, pendulum_velocity, cart_position, cart_velocity, cart_acceleration, limit_A, limit_B = line.decode(
-				"utf-8").strip().split(",")
-			# status = (float(pendulum_angle), pendulum_velocity, cart_position, cart_velocity, cart_acceleration, limit_A, limit_B)
-			status = (
-				float(pendulum_angle), pendulum_velocity, cart_position, cart_velocity, cart_acceleration, limit_A,
-				limit_B)
-			print(status)
-
-		# theta = status[0]
-		# if theta < 0:
-		# 	theta = 180.0 - status[0]
-
-		except Exception as e:
-			print(e)
-		except KeyboardInterrupt:
-			print("closing serial port...")
-			ser.close()
-			sys.exit()
-		finally:
-			pass
-
-
 # @cli.command('control')
 # @click.option('--mode', type=int, default=2)
 # @click.option('--value', type=int, default=300)
 # @click.option('-t', type=float, default=.15)
 # def _x2(mode, value, t):
 # 	pass
-
 
 # , nargs=2, type=click.Tuple([str, int]))
 # @click.option('--control', required=True, type=str, help='Serial Port')
@@ -83,16 +40,13 @@ def _x(mode, value, t):
 	global p, b
 	port = p
 	baud = b
-	# print('port={}'.format(p))
-	# print('baud', baud)
 
 	ser = serial.Serial(
 		port=port,
 		baudrate=baud,
 		parity=serial.PARITY_NONE,
 		stopbits=serial.STOPBITS_ONE,
-		bytesize=serial.EIGHTBITS
-	)
+		bytesize=serial.EIGHTBITS)
 	thread = threading.Thread(target=read_from_port, args=(ser,))
 	thread.start()
 	print(ser)
