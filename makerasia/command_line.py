@@ -40,26 +40,20 @@ def _x(mode, value, t):
 	global p, b
 	port = p
 	baud = b
-
-	ser = serial.Serial(
-		port=port,
-		baudrate=baud,
-		parity=serial.PARITY_NONE,
-		stopbits=serial.STOPBITS_ONE,
-		bytesize=serial.EIGHTBITS)
-	thread = threading.Thread(target=read_from_port, args=(ser,))
-	thread.start()
-	print(ser)
 	v = value
+
+	def cb(val):
+		print(val)
+
+	ser = pendulum.create(port, baud, cb)
 	pendulum.control(ser, 0x02, 300)
 	time.sleep(.3)
 
-	for x in range(0, 500):
-		for y in range(4):
-			pendulum.control(ser, mode, v)
-			time.sleep(t)
-			pendulum.control(ser, mode, -v)
-			time.sleep(t)
+	while True:
+		pendulum.control(ser, mode, v)
+		time.sleep(t)
+		pendulum.control(ser, mode, -v)
+		time.sleep(t)
 
 
 def main():
