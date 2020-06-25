@@ -1,14 +1,14 @@
 from makerasia import pendulum
-import time
-import threading
+import time, threading
 
 
 def cb(val):
 	print(">>", val)
 
 
-s = pendulum.create('/dev/tty.usbserial-14340', _cb=cb)
+s = pendulum.create('/dev/tty.usbserial-14340')
 
+pendulum.add_callback(cb)
 pendulum.control(s, 0x02, 300)
 
 time.sleep(1)
