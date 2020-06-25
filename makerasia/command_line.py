@@ -18,7 +18,7 @@ _debug = False
 @click.group()
 def cli(port, baud):
 	"""A CLI for Inverse Pendulum"""
-	global p, b, _debug	
+	global p, b, _debug
 	p = port
 	b = baud
 
@@ -51,9 +51,9 @@ def read_from_port(ser):
 				limit_B)
 			print(status)
 
-			theta = status[0]
-			if theta < 0:
-				theta = 180.0 - status[0]
+		# theta = status[0]
+		# if theta < 0:
+		# 	theta = 180.0 - status[0]
 
 		except Exception as e:
 			print(e)
@@ -65,16 +65,21 @@ def read_from_port(ser):
 			pass
 
 
+# @cli.command('control')
+# @click.option('--mode', type=int, default=2)
+# @click.option('--value', type=int, default=300)
+# @click.option('-t', type=float, default=.15)
+# def _x2(mode, value, t):
+# 	pass
+
+
 # , nargs=2, type=click.Tuple([str, int]))
 # @click.option('--control', required=True, type=str, help='Serial Port')
-@cli.command('test')
+@cli.command('control')
 @click.option('--mode', type=int, default=2)
 @click.option('--value', type=int, default=300)
 @click.option('-t', type=float, default=.15)
 def _x(mode, value, t):
-	print(mode, value)
-	# click.echo('name=%s id=%d' % item)
-	# click.echo('name=%s id=%d' % item)
 	global p, b
 	port = p
 	baud = b

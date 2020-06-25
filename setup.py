@@ -2,11 +2,11 @@ from setuptools import setup
 
 
 def readme():
-	with open('README.rst') as f:
+	with open('README.md') as f:
 		return f.read()
 
 
-setup(name='ma1',
+setup(name='makerasia',
 	  version='0.1',
 	  description='The funniest joke in the world',
 	  long_description=readme(),
@@ -21,7 +21,7 @@ setup(name='ma1',
 	  author='Nat Weerawan',
 	  author_email='nat.wrw@gmail.com',
 	  license='MIT',
-	  packages=['ma1'],
+	  packages=['makerasia'],
 	  install_requires=[
 		  'markdown',
 		  'pyserial',
@@ -30,7 +30,7 @@ setup(name='ma1',
 	  test_suite='nose.collector',
 	  tests_require=['nose', 'nose-cover3'],
 	  entry_points={
-		  'console_scripts': ['ma-pendulum=ma1.command_line:main'],
+		  'console_scripts': ['ma-pendulum=makerasia.command_line:main'],
 	  },
 	  include_package_data=True,
 	  zip_safe=False)
