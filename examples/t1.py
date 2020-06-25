@@ -1,5 +1,5 @@
+import time
 from makerasia import pendulum
-import time, threading
 
 
 def cb(val):

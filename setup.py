@@ -6,17 +6,12 @@ def readme():
 		return f.read()
 
 
-setup(name='makerasia',
+setup(name='makerasia-pendulum',
 	  version='0.1',
-	  description='The funniest joke in the world',
+	  description='The inverted pendulum sdk',
 	  long_description=readme(),
-	  classifiers=[
-		  'Development Status :: 3 - Alpha',
-		  'License :: OSI Approved :: MIT License',
-		  'Programming Language :: Python :: 2.7',
-		  'Topic :: Text Processing :: Linguistic',
-	  ],
-	  keywords='funniest joke comedy flying circus',
+	  classifiers=[],
+	  keywords='makerasia inverted pendulum',
 	  url='http://github.com/nazt/ma1',
 	  author='Nat Weerawan',
 	  author_email='nat.wrw@gmail.com',
