@@ -3,6 +3,7 @@ from . import pendulum
 import time
 import click, serial
 import struct, sys
+import threading
 
 assert sys.version[:1] == "3"
 
@@ -17,12 +18,51 @@ _debug = False
 @click.group()
 def cli(port, baud):
 	"""A CLI for Inverse Pendulum"""
-	global p, b, _debug
+	global p, b, _debug	
 	p = port
 	b = baud
 
 
-# _debug = debug
+# https://stackoverflow.com/a/27628622
+def readline(a_serial, eol=b'\r\n'):
+	leneol = len(eol)
+	line = bytearray()
+	while True:
+		c = a_serial.read(1)
+		# print(c)
+		if c:
+			line += c
+			if line[-leneol:] == eol:
+				break
+		else:
+			break
+	return (line)
+
+
+def read_from_port(ser):
+	while True:
+		try:
+			line = readline(ser)
+			pendulum_angle, pendulum_velocity, cart_position, cart_velocity, cart_acceleration, limit_A, limit_B = line.decode(
+				"utf-8").strip().split(",")
+			# status = (float(pendulum_angle), pendulum_velocity, cart_position, cart_velocity, cart_acceleration, limit_A, limit_B)
+			status = (
+				float(pendulum_angle), pendulum_velocity, cart_position, cart_velocity, cart_acceleration, limit_A,
+				limit_B)
+			print(status)
+
+			theta = status[0]
+			if theta < 0:
+				theta = 180.0 - status[0]
+
+		except Exception as e:
+			print(e)
+		except KeyboardInterrupt:
+			print("closing serial port...")
+			ser.close()
+			sys.exit()
+		finally:
+			pass
 
 
 # , nargs=2, type=click.Tuple([str, int]))
@@ -48,6 +88,8 @@ def _x(mode, value, t):
 		stopbits=serial.STOPBITS_ONE,
 		bytesize=serial.EIGHTBITS
 	)
+	thread = threading.Thread(target=read_from_port, args=(ser,))
+	thread.start()
 	print(ser)
 	v = value
 	pendulum.control(ser, 0x02, 300)
